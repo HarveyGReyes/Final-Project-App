@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -13,7 +13,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
@@ -22,6 +22,7 @@
     "baseUrl": "src"
   },
   "include": [
-    "src"
-, "src/App.tsx", "frontend/src/pages"  ],
+    "src","src/App.tsx","frontend/src/pages"],
+  "exclude": ["node_modules"]
+
 }

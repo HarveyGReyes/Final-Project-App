@@ -1,59 +1,63 @@
-import React, { useState } from 'react';
-// import LoginPage from '../frontend/src/pages/LoginPage'
-// import Dashboard from '../frontend/src/pages/Dashboard'
-
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { useState, useEffect  } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 import LoginPage from './webpages/LoginPage'
 import Dashboard from './webpages/Dashboard'
+import PrivateRoutes from './utils/PrivateRoutes';
+import { isUserLoggedIn, getAuthToken, setAuthToken, clearAuthToken, verifyAuthToken } from 'utils/UserAuthentication';
+import useAuth from 'utils/useAuthCheck';
 
 function App() {
-  const [userIsAuthenticated , setIsAuthenticated] = useState(false);
+  // const { authStatus, isLoading } = useAuth();
+  // console.log("authStatus", authStatus)
 
-  const handleAuthentication = (authenticated:boolean) => {
-    setIsAuthenticated(authenticated);
-  };
+  const { authStatus, isLoading } = useAuth();
 
-
-  if (userIsAuthenticated){
-    console.log("USER IS AUTHENTICATED")
+  if (isLoading) {
+    return <div>Loading...</div>; // Show a loading indicator while auth status is being fetched
   }
-
-  
+  if (authStatus === null) return null;
 
   return (
-    // <div>
-    //   <LoginPage/>
-    //   {/* <Dashboard/> */}
-    // </div>
+    <div>
+      <Router>
+        <Routes>
+          <Route element={<PrivateRoutes isAuthenticated={authStatus}/>}>
+            <Route path="/home" element={ <Dashboard/> }/>
+          </Route>
 
-    <Router>
-      <Routes>
-        {/* Route for login page */}
-        <Route 
-          path="/login" 
-          element={<LoginPage setIsAuthenticated={handleAuthentication} />} 
-        />
-        
-        {/* Route for dashboard page */}
-        <Route 
-          path="/home" 
-          element={userIsAuthenticated ? <Dashboard /> : <Navigate to="/login" />} 
-        />
+          {/* <Route path="/home" element={<Dashboard/>}/> */}
 
-        {/* Default route or landing page */}
-        <Route 
-          path="/" 
-          element={<Navigate to={userIsAuthenticated ? "/home" : "/login"} />} 
-        />
-        
-        {/* Catch-all route for 404 pages
-        <Route 
-          path="*" 
-          element={<NotFound />} 
-        /> */}
-      </Routes>
-    </Router>
+
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="*" element={<Navigate to="/login" />} />
+
+          {/* <Route path="*" element={<Navigate to={authStatus ? "/home" : "/login"} />} /> */}
+
+
+          {/* <Route 
+            path="/" 
+            element={<Navigate to={authStatus ? "/home" : "/login"} />} 
+          />  */}
+                
+          {/* <Route 
+            path="/home" 
+            element={userIsAuthenticated ? <Dashboard /> : <Navigate to="/login" />} 
+          /> */}
+
+          
+
+
+          
+          {/* Catch-all route for 404 pages
+          <Route 
+            path="*" 
+            element={<NotFound />} 
+          /> */}
+        </Routes>
+      </Router>
+    </div>
+    
 
   )
 }

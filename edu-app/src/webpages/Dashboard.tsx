@@ -1,4 +1,5 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+
 const data = [{name: 'Student A', grade: 10},
             {name: 'Student B', grade: 50},
             {name: 'Student C', grade: 20},

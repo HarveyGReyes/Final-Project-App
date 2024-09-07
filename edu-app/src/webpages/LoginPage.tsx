@@ -1,86 +1,103 @@
-import React from 'react';
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { useState , useEffect} from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { response } from 'express';
+import Cookies from 'js-cookie';
 
-interface LoginPageProps {
-  // isAuthenticated: boolean;
-  // setIsAuthenticated: boolean;
-  // isAuthenticated: (data: boolean) => void;
+import { isUserLoggedIn, getAuthToken, setAuthToken, clearAuthToken } from 'utils/UserAuthentication';
+import useAuth from 'utils/useAuthCheck';
 
-  // isAuthenticated: boolean; // This should be a boolean
-  setIsAuthenticated: (data: boolean) => void; // Function to update authentication state#
-  // setIsAuthenticated:  React.Dispatch<React.SetStateAction<boolean>>;
-}
+export default function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
-export default function LoginPage({ setIsAuthenticated }: LoginPageProps) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [responseData, setResponseData] = useState(null);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+  const [userIsAuthenticated, setIsAuthenticated] = useState(false)
 
-    const handleSubmit = async (e: any) => {
-      e.preventDefault(); // This prevents the default form submission behavior
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // This prevents the default form submission behavior
+  
+    try {
+      const response = await axios.post('http://localhost:3001/api/login', {
+        username: username,
+        password: password
+      },
+      {
+        withCredentials: true, // This ensures cookies are sent and received
+      });
+  
+      console.log('Response:', response);
+      // Optionally store token or other information
+      // localStorage.setItem('authToken', response.data.token);
+  
+      // Handle successful authentication
+      authenticateUser(true);
+      setError(null);
+      setSuccess(response.data.message);
 
-      try {
-        const response = axios.post('http://localhost:3001/api/login', {
-            username: username,
-            password: password
-          }).then((response)=> {
-            console.log('response', response)
-            console.log('User is now authenticated')
-
-            setError(null);
-            setSuccess(response.data.message);
-            setIsAuthenticated(true);
-          })
-          .catch(error => {
-            // console.error('Error fetching data:', error);
-            console.error('Error: ', error.response.data.error)
-
-            setError(error.response.data.error);
-            setSuccess(null);
-            setIsAuthenticated(false);
-          });
-      } catch (err) {
-          console.error('Login failed', err);
-          setIsAuthenticated(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle AxiosError specifically
+        console.error('Error: ', error.response?.data?.error || error.message);
+        setError(error.response?.data?.error || 'An unexpected error occurred');
+      } else {
+        // Handle unexpected errors
+        console.error('Unexpected error: ', error);
       }
+  
+      // Handle failed authentication
+      setSuccess(null);
+      authenticateUser(false);
     }
+  };
+  
+  const authenticateUser = (isAuthenticated : boolean) => {
+    setIsAuthenticated(isAuthenticated);
+  }
 
-    // if (isAuthenticated) {
+  useEffect(() => {
+    if (userIsAuthenticated) {
+        navigate('/home');
+        console.log('User is now authenticated');
+    }
+  }, [userIsAuthenticated, navigate]);
 
-    // }
+  useEffect(() => {
 
-    // if (isAuthenticated) {
-    //   return <Navigate to="./webpages/Dashboard" />;
-    // }
+    console.log('Check', userIsAuthenticated)
+    if (userIsAuthenticated) {
+      navigate('/home')
+      console.log('Redirect to home')
+    }
+  }, [navigate]);
 
-    return (
-      <div className="login-container">
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <p>Username:</p>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <p>Password:</p>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Log In</button>
-        </form>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
-        {success && <div style={{ color: 'green' }}>{success}</div>}
-      </div>
+
+  return (
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <p>Username:</p>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <p>Password:</p>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Log In</button>
+      </form>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {success && <div style={{ color: 'green' }}>{success}</div>}
+    </div>
   );
 }
