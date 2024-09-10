@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import { login } from '../controllers/authController';
+import { login } from '../services/authService';
 import { verify_user } from '../middlewares/authMiddleware';
+import { load_classes } from '../services/userService'
 
 const router = Router();
 
 router.post('/login', login);
 router.get('/verify_user', verify_user);
+router.get('/load_classes', load_classes)
 
 export default router;

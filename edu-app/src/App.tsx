@@ -3,62 +3,24 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'r
 
 import LoginPage from './webpages/LoginPage'
 import Dashboard from './webpages/Dashboard'
-import PrivateRoutes from './utils/PrivateRoutes';
-import { isUserLoggedIn, getAuthToken, setAuthToken, clearAuthToken, verifyAuthToken } from 'utils/UserAuthentication';
-import useAuth from 'utils/useAuthCheck';
+import NavBar from 'components/NavBar';
+
+import { useAuth } from 'utils/AuthProvider';
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import router from 'utils/Router';
+
+import AuthProvider from 'utils/AuthProvider';
+
 
 function App() {
-  // const { authStatus, isLoading } = useAuth();
-  // console.log("authStatus", authStatus)
-
-  const { authStatus, isLoading } = useAuth();
-
-  if (isLoading) {
-    return <div>Loading...</div>; // Show a loading indicator while auth status is being fetched
-  }
-  if (authStatus === null) return null;
+  const { handleLogin, currentUser } = useAuth();
 
   return (
-    <div>
-      <Router>
-        <Routes>
-          <Route element={<PrivateRoutes isAuthenticated={authStatus}/>}>
-            <Route path="/home" element={ <Dashboard/> }/>
-          </Route>
-
-          {/* <Route path="/home" element={<Dashboard/>}/> */}
-
-
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="*" element={<Navigate to="/login" />} />
-
-          {/* <Route path="*" element={<Navigate to={authStatus ? "/home" : "/login"} />} /> */}
-
-
-          {/* <Route 
-            path="/" 
-            element={<Navigate to={authStatus ? "/home" : "/login"} />} 
-          />  */}
-                
-          {/* <Route 
-            path="/home" 
-            element={userIsAuthenticated ? <Dashboard /> : <Navigate to="/login" />} 
-          /> */}
-
-          
-
-
-          
-          {/* Catch-all route for 404 pages
-          <Route 
-            path="*" 
-            element={<NotFound />} 
-          /> */}
-        </Routes>
-      </Router>
-    </div>
-    
-
+    <main>
+      <NavBar />
+      <RouterProvider router={router} />
+    </main>
   )
 }
 

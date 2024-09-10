@@ -1,15 +1,43 @@
-import { Outlet, Navigate } from 'react-router-dom'
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from './AuthProvider'; // Adjust the path to where useAuth is located
 
+const PrivateRoute = ({ element: Element }: { element: React.ComponentType }) => {
+  const { authToken, currentUser } = useAuth(); // Use the hook to access authToken and currentUser
+//   console.log(authToken, currentUser)
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
-const PrivateRoutes = ({ isAuthenticated }:any) => {
-    if (!isAuthenticated) {
-      // Redirect to login page if not authenticated
-      return <Navigate to="/login" />;
+//   if (!authToken || !currentUser) {
+//     // If not authenticated, redirect to the login page
+//     return <Navigate to="/login" replace />;
+//   }
+    useEffect(() => {
+        // Simulate a delay before checking authentication
+        const timer = setTimeout(() => {
+        if (!authToken || !currentUser) {
+            // If not authenticated, set the redirect state to true
+            setShouldRedirect(true);
+        }
+        setIsLoading(false); // Once the check is done, set loading to false
+        }, 200); // Delay of 2000 milliseconds (2 seconds)
+
+        return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }, [authToken, currentUser]);
+
+    if (isLoading) {
+        // Show a loading spinner or placeholder while checking
+        return <div>Loading...</div>;
     }
-    // Render the child routes if authenticated
-    return <Outlet />;
-  };
 
-export default PrivateRoutes
+    if (shouldRedirect) {
+        // If authentication failed, redirect to the login page
+        return <Navigate to="/login" replace />;
+    }
+
+    // If authenticated, render the desired component
+    return <Element />;
+    };
+
+export default PrivateRoute;

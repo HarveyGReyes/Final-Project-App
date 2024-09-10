@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 dataset/
+.idea/
 
 # testing
 /coverage

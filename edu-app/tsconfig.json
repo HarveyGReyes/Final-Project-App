@@ -19,7 +19,10 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@types/*": ["@types/*"]
+    }
   },
   "include": [
     "src","src/App.tsx","frontend/src/pages"],

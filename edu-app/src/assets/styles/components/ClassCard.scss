@@ -1,0 +1,18 @@
+.class-card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width:400px;
+    height: 100px;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    h3 {
+        margin: 0;
+    }
+}
