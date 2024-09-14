@@ -6,6 +6,7 @@
 .pnp.js
 dataset/
 .idea/
+Dashboard copy.tsx
 
 # testing
 /coverage

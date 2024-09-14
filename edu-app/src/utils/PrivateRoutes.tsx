@@ -15,6 +15,9 @@ const PrivateRoute = ({ element: Element }: { element: React.ComponentType }) =>
 //   }
     useEffect(() => {
         // Simulate a delay before checking authentication
+        console.log('Checking if authToken or User exists')
+        console.log(authToken, currentUser)
+        console.log(!authToken, !currentUser)
         const timer = setTimeout(() => {
         if (!authToken || !currentUser) {
             // If not authenticated, set the redirect state to true
@@ -28,11 +31,11 @@ const PrivateRoute = ({ element: Element }: { element: React.ComponentType }) =>
 
     if (isLoading) {
         // Show a loading spinner or placeholder while checking
-        return <div>Loading...</div>;
+        // return <div>Loading...</div>;
     }
 
     if (shouldRedirect) {
-        // If authentication failed, redirect to the login page
+        console.log('redirecting')
         return <Navigate to="/login" replace />;
     }
 

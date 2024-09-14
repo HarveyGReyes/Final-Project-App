@@ -1,7 +1,7 @@
 export interface AuthContext {
     authToken?: string|null;
     currentUser?: User|null;
-    handleLogin: (username: string, password: string) => Promise<void>;
+    handleLogin: (username: string, password: string) => Promise<string>;
     handleLogout: () => Promise<void>;
 };
 

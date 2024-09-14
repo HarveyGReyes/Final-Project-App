@@ -19,12 +19,6 @@ export default function AuthProvider({children}: AuthProviderProps) {
         async function fetchUser(){
             try {
                 const response = await getUser();
-                
-                // console.log(response)
-                // console.log(response.authToken)
-                // console.log(typeof(response.authToken))
-                
-                // setAuthToken(response.data.authToken)
 
                 const user: User = {
                     user_id: response.user.user_id,
@@ -62,7 +56,7 @@ export default function AuthProvider({children}: AuthProviderProps) {
         }
     }
 
-    async function handleLogin(username:string, password:string) {
+    async function handleLogin(username:string, password:string): Promise<string> {
         try{
             const response = await axios.post('http://localhost:3001/api/login', {
                 username: username,
@@ -72,21 +66,44 @@ export default function AuthProvider({children}: AuthProviderProps) {
                 withCredentials: true, // This ensures cookies are sent and received
             });
             
-            // console.log(response)
-
             const status = response.status
             setAuthToken(response.data.authToken)
             setCurrentUser(response.data.user)
+            return response.data
+        }
+        catch (err) {
+            console.error(err)
+            // return `${err}`
+
+            if (axios.isAxiosError(err)) {
+                if (err.response && err.response.data) {
+                    // Access the data in the response from the server
+                    
+                    throw new Error(err.response.data.error)
+                    // You might have an error message or some other structure
+                }
+            }
+            throw new Error('An unknown error occurred during login');
+        };
+    }
+
+    async function handleLogout() {
+        console.log('button presed')
+        try{
+            const response = await axios.post('http://localhost:3001/api/logout',{},
+            {
+                withCredentials: true, // This ensures cookies are sent and received
+            });
+
+            setAuthToken(response.data.authToken)
+            setCurrentUser(null)
 
         }
         catch (err) {
             console.error(err)
         };
-    }
 
-    async function handleLogout() {
-        setAuthToken(undefined)
-        setCurrentUser(null)
+        console.log('LOGGED OUT')
     }
 
     return <AuthContext.Provider value={{ authToken, currentUser, handleLogin, handleLogout }}>{children}</AuthContext.Provider>

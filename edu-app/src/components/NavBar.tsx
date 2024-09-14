@@ -11,7 +11,6 @@ const NavBar = () => {
     const { handleLogout } = useAuth();
 
     const logOut = async () => {
-        
         await handleLogout
     }
 

@@ -12,14 +12,25 @@ import router from 'utils/Router';
 
 import AuthProvider from 'utils/AuthProvider';
 
+import { motion } from 'framer-motion';
+
+import './assets/styles/pages/App.scss'
 
 function App() {
   const { handleLogin, currentUser } = useAuth();
 
   return (
     <main>
-      <NavBar />
-      <RouterProvider router={router} />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}      // Starting state
+        animate={{ opacity: 1, y: 0 }}       // Animation to final state
+        exit={{ opacity: 0, y: 20 }}         // Exit state
+        transition={{ duration: 0.5 }}       // Duration of the animation
+      >
+        {currentUser ? <NavBar /> : null}
+        <RouterProvider router={router} />
+      </motion.div>
+      
     </main>
   )
 }

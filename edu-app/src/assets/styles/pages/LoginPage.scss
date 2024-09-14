@@ -1,0 +1,72 @@
+/* Apply box-sizing to all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* This makes padding and border part of the width */
+}
+
+/* Styles for the login container */
+.login-container {
+    display: flex;
+    justify-content: center;   /* Centers horizontally */
+    align-items: center;       /* Centers vertically */
+    height: 100vh;             /* Takes full viewport height */
+    background-color: #f0f2f5; /* Light background color */
+    box-sizing: border-box;
+
+    /* Styles for the login form container */
+    .login-form-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;          /* Limits the width of the form */
+        width: 100%;
+    }
+    
+    /* Heading inside the form */
+    .login-form-container h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+    }
+    
+    /* Input fields */
+    .login-form-container input {
+        width: 100%;
+        max-width: 100%; 
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    /* Login button */
+    .login-form-container button {
+        width: 100%;               
+        padding: 12px;
+        // background-color: #007bff;  
+        background-color:rgb(197, 153, 239);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;  
+    }
+    
+    .login-form-container button:hover {
+        background-color: rgb(121, 27, 210);  /* Darker blue on hover */
+    }
+    
+    /* Error and success messages */
+    .login-form-container div {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 14px;
+    }
+}
+
