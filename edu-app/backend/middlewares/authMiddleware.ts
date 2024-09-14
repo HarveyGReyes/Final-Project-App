@@ -14,7 +14,7 @@ export const verify_user = async (req: any, res: any, next: any) => {
             return res.status(403).json({ message: 'Auth Token Verification Failed' }); // If token is invalid, return forbidden
         }
         req.user = user; // Store user information in request
-        console.log('Token is valid. Decoded payload:', user);
+        // console.log('Token is valid. Decoded payload:', user);
         res.status(200).json(
             {
                 message: 'User verified successfully',

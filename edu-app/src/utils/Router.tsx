@@ -3,12 +3,10 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import PrivateRoute from './PrivateRoutes';
 
-
 import LoginPage from '../webpages/LoginPage'
 import Dashboard from '../webpages/Dashboard'
 import ClassSelectionPage from '../webpages/ClassSelection';
-
-
+import InsightsPage from '../webpages/InsightsPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <PrivateRoute element={Dashboard} />
+  },
+  {
+    path: '/insights',
+    element: <PrivateRoute element={InsightsPage} />
   }
 ]);
 

@@ -1,13 +1,12 @@
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import '../assets/styles/pages/Dashboard.scss'
 
 import { useAuth } from 'utils/AuthProvider';
+import { IoMdReturnLeft } from "react-icons/io";
 
-// const { currentUser } = useAuth();
-// const navigate = useNavigate()
+import { motion } from 'framer-motion';
 
 const data = [{name: 'Student A', grade: 10},
             {name: 'Student B', grade: 50},
@@ -15,58 +14,81 @@ const data = [{name: 'Student A', grade: 10},
             {name: 'Student D', grade: 90}];
 
 const renderLineChart = (
-    <div className="graph" style={{}}>
-        <LineChart width={200} height={200} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+    <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
             <Line type="monotone" dataKey="grade" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            {/* <XAxis dataKey="name" />
-            <YAxis /> */}
-            {/* <Tooltip /> */}
+            <YAxis width={25}/>
         </LineChart>
-    </div>
+    </ResponsiveContainer>
 );
 
-const renderLineChart2 = (
-    <div className="graph" style={{}}>
-        <LineChart width={600} height={400} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-            <Line type="monotone" dataKey="grade" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis /> 
-            <Tooltip />
-        </LineChart>
-    </div>
-);
-
-
+// const renderLineChart2 = (
+//     <div className="graph" style={{}}>
+//         <LineChart width={600} height={400} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+//             <Line type="monotone" dataKey="grade" stroke="#8884d8" />
+//             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+//             <XAxis dataKey="name" />
+//             <YAxis /> 
+//             <Tooltip />
+//         </LineChart>
+//     </div>
+// );
 
 export default function Dashboard() {
-
+    const navigate = useNavigate()
     const { currentUser } = useAuth();
-    console.log('Dashboard', currentUser)
+
+    // console.log('Dashboard', currentUser)
+
+    function returnToClassSelection() {
+        navigate('/class-selection')
+    }
+
+    function loadInsights() {
+        navigate('/insights')
+    }
 
     return (
         // renderLineChart
-        <div className='dashboard-cointainer'>
-            <button className='dashboard-card'>
-                {renderLineChart}
-            </button>
-            <button className='dashboard-card'>
+        
+        <div className='dashboard-container'>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}      // Starting state
+                animate={{ opacity: 1, y: 0 }}       // Animation to final state
+                exit={{ opacity: 0, y: 20 }}         // Exit state
+                transition={{ duration: 0.5 }}       // Duration of the animation
+            >
+                <div className='return-btn-container'>
+                    {/* button here that  takes string fo the webpage to load */}
+                    <button className="return-btn" onClick={returnToClassSelection}>
+                        <IoMdReturnLeft size={40} color='#919191'/>
+                    </button>
+                </div>
+                <div className='dashboard-card-container'>
+                    <button className='dashboard-card' onClick={loadInsights}>
+                        {renderLineChart}
+                    </button>
+                    <button className='dashboard-card'>
 
-            </button>
-            <button className='dashboard-card'>
+                    </button>
+                    <button className='dashboard-card'>
 
-            </button>
-            <button className='dashboard-card'>
+                    </button>
+                    <button className='dashboard-card'>
 
-            </button>
-            <button className='dashboard-card'>
+                    </button>
+                    <button className='dashboard-card'>
 
-            </button>
-            <button className='dashboard-card'>
+                    </button>
+                    <button className='dashboard-card'>
 
-            </button>
-            {renderLineChart2}
+                    </button>
+                </div>
+            </motion.div>
+           
+            
+            {/* {renderLineChart2} */}
         </div>
     )
 }

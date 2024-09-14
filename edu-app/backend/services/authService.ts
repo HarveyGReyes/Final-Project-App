@@ -86,4 +86,18 @@ const get_employee_id = (userid: number): Promise<number | null> => {
     });
   });
 };
-  
+
+export const logout = async (req: any, res: any) => { 
+  try {
+    res.clearCookie('authToken', { path: '/' });
+    // res.clearCookie('authToken', { path: '/', sameSite: 'None', secure: false });
+    // res.cookie('authToken', '', { expires: new Date(0), path: '/', secure: false, sameSite: 'None' });
+
+    return res.status(200).json({ message: 'Logged out successfully', authToken:null });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({ message: 'An error occurred during logout' });
+  }
+}
