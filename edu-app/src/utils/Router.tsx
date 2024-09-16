@@ -22,11 +22,11 @@ const router = createBrowserRouter([
     element: <PrivateRoute element={ClassSelectionPage} />
   },
   {
-    path: '/home',
+    path: '/home/:classID',
     element: <PrivateRoute element={Dashboard} />
   },
   {
-    path: '/insights',
+    path: '/insights/:classID',
     element: <PrivateRoute element={InsightsPage} />
   }
 ]);

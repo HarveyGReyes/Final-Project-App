@@ -1,0 +1,38 @@
+.insights-container{
+    margin-top: 5vh;
+    
+    .insights-content-container {
+        // margin-left: 20px;
+        display: grid;
+        grid-template-columns: 75% 25%;
+        grid-template-rows: auto; 
+        height: calc(95vh - 53px);
+        width: 100%; /* Full viewport width */
+
+        .insights-chart-container {
+            grid-column: 1; /* This occupies the first column (75%) */
+            height: 95%; /* Full height of the row */
+            border-right: 0.1px solid #c2c2c2; /* Optional: add a border for clarity */
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            h1 {
+                position: fixed;
+                margin: 0;
+                top:10%;
+                color:grey;
+            }
+        }
+
+        .insights-facets-container {
+            grid-column: 2; /* This occupies the second column (25%) */
+            height: 95%; /* Full height of the row */
+        }
+    }
+
+}
+
+
+

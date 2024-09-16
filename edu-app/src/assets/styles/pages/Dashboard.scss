@@ -42,19 +42,3 @@
   }
 }
 
-.return-btn-container {
-  position:fixed;
-  margin-left: 60px;
-
-  .return-btn {
-    background-color: transparent;
-    border-radius: 20px;
-    border: none;
-    padding: 8px 10px;   
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .return-btn:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-}

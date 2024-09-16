@@ -22,10 +22,8 @@ export default function LoginPage() {
 
     try {
         const response = await handleLogin(username, password);  // Call the login function from context
-        console.log("Login successful:", response);
         setSuccess('Login Sucessful!')
     } catch (error) {
-        console.error("Login failed:", error);
         setError(`Login failed. ${error}`)
     }
   };

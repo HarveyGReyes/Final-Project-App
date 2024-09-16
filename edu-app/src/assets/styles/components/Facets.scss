@@ -1,0 +1,27 @@
+.facets-menu {
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  color: grey;
+}
+
+.facet-section {
+  margin-top: 30px;
+}
+
+.facet-section ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;  /* Ensure items wrap when they overflow */
+  max-height: 500px; /* Limit the height of the list */
+  overflow-y: auto;  /* Enable scrolling if content overflows */
+  
+  
+}
+
+.facet-section li {
+  margin-bottom: 5px;
+  margin-right: 10px; /* Add some space between the items */
+  flex-basis: 45%;  /* Adjust this value based on how much space each item should take */
+}
