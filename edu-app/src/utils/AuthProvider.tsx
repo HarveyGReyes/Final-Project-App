@@ -23,6 +23,8 @@ export default function AuthProvider({children}: AuthProviderProps) {
                 const user: User = {
                     user_id: response.user.user_id,
                     username: response.user.username,
+                    first_name: response.user.first_name,
+                    last_name: response.user.last_name,
                     type: response.user.type,
                     iat: response.user.iat,
                     exp: response.user.exp,
@@ -37,9 +39,7 @@ export default function AuthProvider({children}: AuthProviderProps) {
             }
         }
 
-        // setAuthToken(Cookies.get(COOKIE_NAME))
         fetchUser()
-        
     }
     , []);
 
@@ -48,10 +48,8 @@ export default function AuthProvider({children}: AuthProviderProps) {
             const response = await axios.get('http://localhost:3001/api/verify_user', {
                 withCredentials: true, // Ensure cookies are sent and received
             });
-
             return response.data;
         } catch (error) {
-            console.error('Failed to fetch user:', error);
             throw new Error('Failed to fetch user');
         }
     }
@@ -72,15 +70,9 @@ export default function AuthProvider({children}: AuthProviderProps) {
             return response.data
         }
         catch (err) {
-            console.error(err)
-            // return `${err}`
-
             if (axios.isAxiosError(err)) {
                 if (err.response && err.response.data) {
-                    // Access the data in the response from the server
-                    
                     throw new Error(err.response.data.error)
-                    // You might have an error message or some other structure
                 }
             }
             throw new Error('An unknown error occurred during login');
@@ -88,7 +80,6 @@ export default function AuthProvider({children}: AuthProviderProps) {
     }
 
     async function handleLogout() {
-        console.log('button presed')
         try{
             const response = await axios.post('http://localhost:3001/api/logout',{},
             {
@@ -102,8 +93,6 @@ export default function AuthProvider({children}: AuthProviderProps) {
         catch (err) {
             console.error(err)
         };
-
-        console.log('LOGGED OUT')
     }
 
     return <AuthContext.Provider value={{ authToken, currentUser, handleLogin, handleLogout }}>{children}</AuthContext.Provider>

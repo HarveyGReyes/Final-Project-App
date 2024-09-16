@@ -11,11 +11,23 @@ export interface User {
     type: string;
     iat: number;
     exp: number;
+    first_name: string;
+    last_name: string;
     employee_id: number|null;
 }
 
 export interface Teacher extends User {
     teacher_id: number,
+}
+
+export interface Student extends User {
+    full_name: string;
+    student_id: number;
+}
+
+export interface Assignment extends Student {
+    marks_awarded: number;
+    assignment_title: string;
 }
 
 export interface Class {
@@ -26,3 +38,13 @@ export interface Class {
     last_lesson_time: Date,
     last_exam_date: Date
 }
+
+export interface Facet {
+    name: string;
+    values: string[];
+  };
+  
+export interface FacetSelection {
+    [facetName: string]: string[];
+};
+  

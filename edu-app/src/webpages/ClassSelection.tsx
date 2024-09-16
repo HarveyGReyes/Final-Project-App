@@ -1,7 +1,6 @@
 import React,  { useState , useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 import { useAuth } from 'utils/AuthProvider';
 import ClassCard from 'components/ClassCard';
@@ -26,8 +25,7 @@ export default function ClassSelectionPage() {
           }
         });
         setClasses(response.data.classes)
-  
-        // return response.data;
+
       } catch (error) {
           console.error('Failed to fetch classes:', error);
       }
@@ -36,8 +34,6 @@ export default function ClassSelectionPage() {
     loadUserClasses()
   }, []);
 
-  
-  
   return (
     <div className="class-selection-container">
       {/* <h1>SELECT CLASS</h1> */}
@@ -50,17 +46,10 @@ export default function ClassSelectionPage() {
             transition={{ duration: 0.5 }}       // Duration of the animation
         >
           {classes.map((classItem) => (
-              <ClassCard key={classItem.class_id} classData={classItem} />
+              <ClassCard classID={classItem.class_id} classData={classItem} />
           ))}
         </motion.div>
-        
       </div>
-
-
-      <div>
-        {/* <bSutton onClick={goToLogin}>Default Button</button> */}
-      </div>
-
     </div>
   );
 }

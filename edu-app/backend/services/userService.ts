@@ -1,5 +1,4 @@
 import { db } from "../config/db";
-import axios from 'axios';
 
 export const load_classes = async (req: any, res: any) => {
     const { employee_id } = req.query;

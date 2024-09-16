@@ -12,7 +12,7 @@ function LogOutButton() {
 
     async function logOut() {
         await handleLogout()
-        console.log('log out button pressed')
+        // console.log('log out button pressed')
     }
 
     if (currentUser){

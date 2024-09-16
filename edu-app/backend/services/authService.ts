@@ -23,16 +23,10 @@ export const login = async (req: any, res: any) => {
         console.error('Error hashing password:', err);
         return;
       }
-      // console.log('Hashed ', password, ' into ', hashedPassword);
-      // Store hashedPassword in the database
     });
 
     const user = results[0];
-    if (user){
-      // console.log("User found: ",user)
-    }
-    else
-    {
+    if (!user){
       return res.status(404).json({ error: 'Username does not exist' })
     }
     
@@ -46,11 +40,8 @@ export const login = async (req: any, res: any) => {
       }
       else {employee_id = null}
       
-      console.log('this is employment_id', employee_id)
-
       const payload = { user_id: user.user_id, username: user.username, type: user.type, employee_id: employee_id};
 
-      //add try here
       const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
       res.cookie('authToken', token, {
@@ -77,10 +68,8 @@ const get_employee_id = (userid: number): Promise<number | null> => {
         reject(err);  // Reject the promise with the error
       } else if (results.length > 0) {
         const employee_id = results[0].employee_id;
-        console.log("Employee ID found: ", employee_id);
         resolve(employee_id);  // Resolve the promise with the teacher ID
       } else {
-        console.log("No teacher ID found");
         resolve(null);  // Resolve the promise with null if no teacher ID is found
       }
     });

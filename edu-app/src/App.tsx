@@ -21,7 +21,7 @@ function App() {
 
   return (
     <main>
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 20 }}      // Starting state
         animate={{ opacity: 1, y: 0 }}       // Animation to final state
         exit={{ opacity: 0, y: 20 }}         // Exit state
@@ -29,7 +29,10 @@ function App() {
       >
         {currentUser ? <NavBar /> : null}
         <RouterProvider router={router} />
-      </motion.div>
+      </motion.div> */}
+
+      {currentUser ? <NavBar /> : null}
+      <RouterProvider router={router} />
       
     </main>
   )
